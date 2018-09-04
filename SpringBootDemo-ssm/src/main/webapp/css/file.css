@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+
+.beg-box {
+	background: url(../Images/login-bg-1.jpg) no-repeat center center fixed;
+	/* background-color: #73808c; */
+	background: #FFF; border: 1px solid #9DB3C5; padding: 1px; width:90%;margin:20px auto; 
+	
+}
+
+.beg-box  h1 {
+	/* text-align: center;
+	font-size: 25px;
+	line-height: 40px; */
+	
+	 line-height: 31px; text-align:center;  background: #2F589C url(th_bg2.gif); background-repeat: repeat-x; background-position: 0 0; color: #FFF;
+}
+
+.beg-header th{
+	border: 1px solid #CAD9EA; padding: 5px; 
+	
+}
+.beg-header td{ 
+     border:1px dotted #cad9ea;
+    padding:0 2px 0;
+}  

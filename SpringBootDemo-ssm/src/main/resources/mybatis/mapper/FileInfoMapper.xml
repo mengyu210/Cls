@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyp.record.web.mapper.FileInfoMapper">
+
+
+    <resultMap id="fileInfo" type="com.gyp.record.web.pojo.FileInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="filename" jdbcType="VARCHAR" property="fileName" />
+    <result column="filesize" jdbcType="INTEGER" property="fileSize" />
+    <result column="filepath" jdbcType="VARCHAR" property="filePath" />
+    <result column="filetype" jdbcType="VARCHAR" property="fileType" />
+    <result column="uploadtime" jdbcType="VARCHAR" property="uploadTime" />
+    
+    <collection property="user" ofType="com.gyp.record.web.pojo.User">
+    <id column="id" property="id"/>
+    <result column="username" property="userName"/>
+    </collection>
+  </resultMap>
+  
+
+<!-- 查询文件根据用户id -->
+<select id="queryFileById" parameterType="com.gyp.record.web.pojo.FileInfo" resultType="fileInfo">
+    select
+    f.id,
+    f.fileName,
+    f.fileSize,
+    f.filePath,
+    f.fileType,
+    f.uploadTime,
+    u.id
+    u.username
+    from fileInfo f
+    left join user u
+    on f.uid=u.id
+    where f.uid=#{id}  
+    
+</select>
+    
+    <resultMap type="com.gyp.record.web.pojo.FileInfo" id="files">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="filename" jdbcType="VARCHAR" property="fileName" />
+        <result column="filesize" jdbcType="INTEGER" property="fileSize" />
+        <result column="filetype" jdbcType="VARCHAR" property="fileType" />
+        <result column="uploadtime" jdbcType="VARCHAR" property="uploadTime" />    
+   </resultMap>
+    
+    
+    
+   
+   
+   <select id="queryFilesByPageDownload" resultMap="fileInfo">
+     select 
+     f.id,
+     f.fileName,
+     f.fileSize,
+     f.filePath,
+     f.fileType,
+     f.uploadTime,
+     u.id,
+     u.userName
+     from fileInfo f left join user u
+     on  f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     limit #{startPos},#{pageSize}
+   
+   </select>
+   
+   <select id="queryFilesByPageDownloadByName" resultMap="fileInfo">
+       select 
+     f.id,
+     f.fileName,
+     f.fileSize,
+     f.filePath,
+     f.fileType,
+     f.uploadTime,
+     u.id,
+     u.userName
+     from fileInfo f left join user u
+     on  f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and f.fileName like '%${fileName}%'
+     limit #{startPos},#{pageSize}
+   
+   </select>
+   
+   
+  <!--  分页查看所有文件 -->
+   <select id="queryFilesByPage" resultMap="fileInfo">
+     select 
+     f.id,
+     f.fileName,
+     f.fileSize,
+     f.filePath,
+     f.fileType,
+     f.uploadTime,
+     u.id,
+     u.userName
+     from fileInfo f left join user u
+     on f.uid=u.id
+     where u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     limit #{startPos},#{pageSize}
+   
+   </select>
+   
+    <select id="queryFilesByPageByName" resultMap="fileInfo">
+      select 
+     f.id,
+     f.fileName,
+     f.fileSize,
+     f.filePath,
+     f.fileType,
+     f.uploadTime,
+     u.id,
+     u.userName
+     from fileInfo f left join user u
+     on f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and 
+     u.user_class=#{user_class}
+     and 
+     fileName like '%${fileName}%'
+     limit #{startPos},#{pageSize}
+    </select>
+   
+   <!-- 分页查看视频类型的文件 -->
+   <select id="queryFilesByPageVedios" resultMap="fileInfo">
+     select 
+     f.id,
+     f.fileName,
+     f.fileSize,
+     f.filePath,
+     f.fileType,
+     f.uploadTime,
+     u.id,
+     u.userName
+     from fileInfo f left join user u
+     on f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     filetype in ('.avi','.mp4','.flv','.rmvb')
+     limit #{startPos},#{pageSize}
+   
+   </select>
+   
+   <select id="queryFilesByPageVediosByName" resultMap="fileInfo">
+      select 
+     f.id,
+     f.fileName,
+     f.fileSize,
+     f.filePath,
+     f.fileType,
+     f.uploadTime,
+     u.id,
+     u.userName
+     from fileInfo f left join user u
+     on f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     filetype in ('.avi','.mp4','.flv','.rmvb')
+     and 
+     fileName like '%${fileName}%'
+     limit #{startPos},#{pageSize}
+   </select>
+   
+   
+   <!-- 分页查看音频类型的文件 -->
+   <select id="queryFilesByPageAudios" resultMap="fileInfo">
+     select 
+     *
+     from fileInfo f left join user u
+     on f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.mp3','.au','.flac','.aac')
+     limit #{startPos},#{pageSize}
+   
+   </select>
+   
+   <select id="queryFilesByPageAudiosByName" resultMap="fileInfo">
+     select 
+     *
+     from fileInfo f left join user u
+     on f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.mp3','.au','.flac','.aac')
+     and 
+     f.fileName like '%${fileName}%'
+     limit #{startPos},#{pageSize}
+   
+   </select>
+   
+   
+   
+   
+   <!-- 分页查看图片类型的文件 -->
+   <select id="queryFilesByPagePictures" resultMap="fileInfo">
+     select 
+     *
+     from fileInfo f left join user u
+     on f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.bmp','.jpg','.gif','.jpeg')
+     limit #{startPos},#{pageSize}
+   
+   </select>
+   
+   <select id="queryFilesByPagePicturesByName" resultMap="fileInfo">
+     
+     select 
+     *
+     from fileInfo f left join user u
+     on f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.bmp','.jpg','.gif','.jpeg')
+     and
+     f.fileName like '%${fileName}%'
+     limit #{startPos},#{pageSize}
+   
+   </select>
+   
+   
+   <!-- 分页查看文档类型的文件 -->
+   <select id="queryFilesByPageDocuments" resultMap="fileInfo">
+     select 
+     *
+     from fileInfo f left join user u
+     on f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.doc','.js','.docx','.dll')     
+     limit #{startPos},#{pageSize}
+   
+   </select>
+   
+   <select id="queryFilesByPageDocumentsByName" resultMap="fileInfo">
+     select 
+     *
+     from fileInfo f left join user u
+     on f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.doc','.js','.docx','.dll')
+     and
+     f.fileName like '%${fileName}%'
+     limit #{startPos},#{pageSize}
+     
+   </select>
+   
+   
+   
+   <select id="searchFilesByPage" resultMap="fileInfo">
+      select 
+     *
+     from fileInfo f left join user u
+     on f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     
+     and u.user_class=#{user_class}
+     
+     and filename=#{fileName}
+     limit #{startPos},#{pageSize}
+   
+   </select>
+   
+   <select id="getFilesCount" resultType="long" >
+     select count(*) 
+     from fileInfo f left join user u
+     on  f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     
+   </select>
+   
+   <select id="getFilesCountByName" resultType="long" >
+     select count(*) 
+     from fileInfo f left join user u
+     on  f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and f.fileName like '%${fileName}%'
+   </select>
+   
+   
+   <select id="getFilesCountByVedios" resultType="long" >
+     select count(*) 
+     from fileInfo f left join user u
+     on  f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.avi','.mp4','.flv','.rmvb')
+   </select>
+   
+   <select id="getFilesCountByVediosByName" resultType="long" >
+     select count(*) 
+     from fileInfo f left join user u
+     on  f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.avi','.mp4','.flv','.rmvb')
+     and f.fileName like '%${fileName}%'
+   </select>
+   
+   <select id="getFilesCountByAudios" resultType="long" >
+     select count(*) 
+     from fileInfo f left join user u
+     on  f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.mp3','.au','.flac','.aac')
+   </select>
+   
+   <select id="getFilesCountByAudiosByName" resultType="long" >
+      select count(*) 
+     from fileInfo f left join user u
+     on  f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.mp3','.au','.flac','.aac')
+     and 
+     f.fileName like '%${fileName}%'
+   
+   </select>
+   
+   <select id="getFilesCountByPictures" resultType="long" >
+     select count(*) 
+     from fileInfo f left join user u
+     on  f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.bmp','.jpg','.gif','.jpeg')
+   </select>
+   
+   <select id="getFilesCountByPicturesByName" resultType="long" >
+     select count(*) 
+     from fileInfo f left join user u
+     on  f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.bmp','.jpg','.gif','.jpeg')
+     and 
+     f.fileName like '%${fileName}%'
+   </select>
+   
+   <select id="getFilesCountByDocuments" resultType="long" >
+     select count(*) 
+     from fileInfo f left join user u
+     on  f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.doc','.js','.docx','.dll')
+   </select>
+   
+   <select id="getFilesCountByDocumentsByName" resultType="long" >
+     select count(*) 
+     from fileInfo f left join user u
+     on  f.uid=u.id
+     where 
+     u.user_school=#{user_school}
+     and u.user_class=#{user_class}
+     and
+     f.filetype in ('.doc','.js','.docx','.dll')
+     and 
+     f.fileName like '%${fileName}%'
+   </select>
+   
+  
+
+<select id="queryFileByType" parameterType="com.gyp.record.web.pojo.FileInfo" resultType="fileInfo">
+    select
+    f.id,
+    f.fileName,
+    f.fileSize,
+    f.filePath,
+    f.fileType,
+    f.uploadTime,
+    u.id
+    from fileInfo f
+    left join user u
+    on f.uid=u.id
+    where  f.uid=#{id} 
+    and f.fileType=#{fileType}
+      
+    
+</select>
+
+
+
+<insert id="insertFileInfo" parameterType="com.gyp.record.web.pojo.FileInfo">
+    insert into
+      fileinfo(filename,filesize,filepath,filetype,uploadtime,uid)
+      values
+      (#{fileName},#{fileSize},#{filePath},#{fileType},#{uploadTime},#{user.id})
+      
+</insert>
+
+  
+</mapper>  

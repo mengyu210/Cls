@@ -1,0 +1,59 @@
+var navs = [{
+	"title": "基本信息",
+	"icon": "fa-cubes",
+	"spread": true,
+	"children": [{
+		"title": "用戶信息完善",
+		"icon": "&#xe641;",
+		"href": "updateInformation.action"
+	}, {
+		"title": "用戶信息修改",
+		"icon": "&#xe63c;",
+		"href": "modifyInformation.action"
+	}]
+}, {
+	"title": "文件传输",
+	"icon": "fa-address-book",
+	"href": "",
+	"spread": true,
+	"children": [{
+		"title": "文件上传",
+		"icon": "fa-qq",
+		"href": "uploadPage.action"
+	}, {
+		"title": "文件下载",
+		"icon": "fa-github",
+		"href": "showDownloadFiles.action"
+	}]
+}, {
+	"title": "文件分类",
+	"icon": "&#x1002;",
+	"href": "",
+	"spread": true,
+	"children": [{
+		"title": "全部文件",
+		"icon": "fa-table",
+		"href": "showFiles.action"
+	},  {
+		"title": "视频文件",
+		"icon": "fa-table",
+		"href": "showFilevedios.action"
+	}, {
+		"title": "文档文件",
+		"icon": "fa-navicon",
+		"href": "showFileDocuments.action"
+	}, {
+		"title": "音频文件",
+		"icon": "&#xe641;",
+		"href": "showFileAudios.action"
+	}, {
+		"title": "图片文件",
+		"icon": "&#xe60c;",
+		"href": "showFilePictures.action"
+	}]
+/*}, {
+	"title": "这是一级导航",
+	"icon": "fa-stop-circle",
+	"href": "https://www.baidu.com",
+	"spread": false*/
+}];

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyp.record.web.mapper.UserMapper">
+
+<!-- id :statement的id或者叫做sql的id -->
+<!-- parameterType:声明输入参数的类型 -->
+<!-- resultType:声明输出结果的类型,应该填写pojo的全路径 -->
+<!-- #{}输入参数的占位符,相当于jdbc的? -->
+    <resultMap id="BaseResultMap" type="com.gyp.record.web.pojo.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="telnumber" jdbcType="VARCHAR" property="telNumber" />
+    <result column="true_name" jdbcType="VARCHAR" property="trueName" />
+    <result column="createtime" jdbcType="VARCHAR" property="createTime" />
+    <result column="user_age" jdbcType="INTEGER" property="user_age" />
+    <result column="user_school" jdbcType="VARCHAR" property="user_school" />
+    <result column="user_class" jdbcType="VARCHAR" property="user_class" />
+    <result column="user_address" jdbcType="VARCHAR" property="user_address" />
+    <result column="user_sex" jdbcType="VARCHAR" property="user_sex" />
+  </resultMap>
+  
+
+<select id="queryUserByName" parameterType="com.gyp.record.web.pojo.User" resultType="com.gyp.record.web.pojo.User">
+    select 
+    id,
+    username,
+    password,
+    telnumber,
+    truename,
+    createtime,
+    user_age,
+    user_school,
+    user_class,
+    user_address,
+    user_sex
+    from user where 
+    username=#{userName} and
+    password=#{password} 
+      <!-- <where>
+	        <if test="userName!=null">
+	        and username=#{userName}
+	        </if>
+	        <if test="password!=null">
+	        and password=#{password}
+	        </if>
+	    
+	    </where> -->
+    
+</select>
+
+   <select id="getUserByName" parameterType="String" resultType="com.gyp.record.web.pojo.User">
+      select
+      *
+      from user where 
+      username=#{userName}
+   
+   
+   </select>
+
+
+   <select id="queryUserById" parameterType="com.gyp.record.web.pojo.User" resultType="com.gyp.record.web.pojo.User">
+    select 
+    id,
+    username,
+    password,
+    telnumber,
+    truename,
+    createtime,
+    user_age,
+    user_school,
+    user_class,
+    user_address,
+    user_sex
+    from user where 
+    id=#{id}
+    
+</select>
+
+
+
+<insert id="insertUser" parameterType="User">
+    insert into
+      user(username,password,telnumber,createtime,user_sex)
+      values
+      (#{userName},#{password},#{telNumber},#{createTime},#{user_sex})
+      
+
+</insert>
+
+ <update id="updateUserById" parameterType="User">
+    update user
+    set truename= #{trueName},user_age= #{user_age},user_school= #{user_school},user_class=#{user_class},user_address=#{user_address}
+    where id = #{id}
+  </update>
+  
+  <update id="updateUserAllById" parameterType="User">
+    update user
+    set 
+    username=#{userName},
+    password=#{password},
+    telnumber=#{telNumber},
+    truename= #{trueName},
+    user_age= #{user_age},
+    user_school= #{user_school},
+    user_class=#{user_class},
+    user_address=#{user_address},
+    user_sex=#{user_sex}
+    where id = #{id}
+  </update>
+
+
+
+  
+</mapper>
